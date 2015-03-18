@@ -7,24 +7,24 @@
 -- these lines here.
 
 -- Create the database for the tournament
--- create database tournament;
+create database tournament_extra;
 
 -- Create tables for the database
--- create table players (id serial, name text);
--- create table matches (id1 integer, id2 integer, winner integer, loser integer);
+create table players (id serial, name text);
+create table matches (id1 integer, id2 integer);
 
 -- Populate players tables
 -- insert into players (name) values ('Dagobert :)');
 -- insert into players (name) values ('Donald :(');
 
 -- Populate matches tables
--- INSERT INTO matches VALUES ('90','91','90','91');
+-- INSERT INTO matches VALUES ('90','91');
 
 -- View showing the wins for each player id also when never played
 CREATE VIEW view_wins AS
-SELECT players.id, count(matches.winner) AS wins 
+SELECT players.id, count(matches.id1) AS wins 
 FROM players LEFT JOIN matches 
-ON players.id = matches.winner 
+ON players.id = matches.id1 
 GROUP BY players.id 
 ORDER BY players.id;
 
