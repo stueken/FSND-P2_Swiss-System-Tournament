@@ -22,6 +22,8 @@ in the database have to be explicitly registered for a tournament.
 
 Additionally, primary and foreign key constraints are implemented in the database schema.
 
+NOTE: The database model for tournament_extra (extra credit) can be accessed through the 'Issues'-tab on the right. 
+
 # Requirements
 - Python 2.7
 - PostgreSQL
