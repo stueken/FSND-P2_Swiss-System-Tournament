@@ -69,9 +69,9 @@ INSERT INTO matches VALUES ('24','25', false, '1');
 INSERT INTO matches VALUES ('26','27', , '1');*/
 
 
--- 1. Views to meet requirements
+-- 1. Views to meet requirements - not used.
 
--- View showing the wins for each player id also when never played
+/*-- View showing the wins for each player id also when never played
 CREATE VIEW view_wins AS
 SELECT players.id, count(matches.id1) AS wins 
 FROM players LEFT JOIN matches 
@@ -98,7 +98,7 @@ CREATE VIEW view_name_and_wins AS
 SELECT players.id, players.name, view_wins.wins
 FROM players LEFT JOIN view_wins
 ON players.id = view_wins.id
-ORDER BY view_wins.wins DESC;
+ORDER BY view_wins.wins DESC;*/
 
 
 -- 2. Views for extra credit
@@ -148,13 +148,14 @@ FROM tournament_players
 GROUP BY tournament_players.tid, tournament_players.pid, tournament_players.bye
 ORDER BY tournament_players.tid;
 
+/*-- not used.
 -- View showing ties for all player ids even though they don't have any tie.
 CREATE VIEW view_ties_extra AS
 SELECT players.id, count(matches.id1 + matches.id2) AS ties
 FROM players LEFT JOIN matches 
 ON (players.id = matches.id1 OR players.id = matches.id2) AND matches.tie = true
 GROUP BY players.id
-ORDER BY players.id;
+ORDER BY players.id;*/
 
 -- View like view_matches, but only regarding the last registered tournament via INNER JOIN
 CREATE VIEW view_matches_last_tournament_extra AS
@@ -165,13 +166,14 @@ FROM tournament_players
 GROUP BY tournament_players.tid, tournament_players.pid
 ORDER BY tournament_players.tid, tournament_players.pid;
 
+/*-- not used.
 -- View like view_statistics_by_id, but adding ties
 CREATE VIEW view_statistics_by_id_extra AS
 SELECT view_wins_extra.id, view_wins_extra.wins, view_ties_extra.ties, view_matches.matches
 FROM view_wins_extra
 	LEFT JOIN view_matches ON view_wins_extra.id = view_matches.id
 	LEFT JOIN view_ties_extra ON view_wins_extra.id = view_ties_extra.id
-ORDER BY view_matches.id;
+ORDER BY view_matches.id;*/
 
 -- View like view_statistics_by_id_extra, but only regarding the last registered tournament via INNER JOIN
 CREATE VIEW view_statistics_by_id_last_tournament_extra AS

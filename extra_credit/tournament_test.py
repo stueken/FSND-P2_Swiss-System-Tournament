@@ -5,230 +5,6 @@
 from tournament import *
 
 
-def testDeleteMatches():
-    deleteMatches()
-    print "1. Old matches can be deleted."
-
-
-def testDelete():
-    deleteMatches()
-    deletePlayers()
-    print "2. Player records can be deleted."
-
-
-def testCount():
-    deleteMatches()
-    deletePlayers()
-    c = countPlayers()
-    if c == '0':
-        raise TypeError(
-            "countPlayers() should return numeric zero, not string '0'.")
-    if c != 0:
-        raise ValueError("After deleting, countPlayers should return zero.")
-    print "3. After deleting, countPlayers() returns zero."
-
-
-def testRegister():
-    deleteMatches()
-    deletePlayers()
-    registerPlayer("Chandra Nalaar")
-    c = countPlayers()
-    if c != 1:
-        raise ValueError(
-            "After one player registers, countPlayers() should be 1.")
-    print "4. After registering a player, countPlayers() returns 1."
-
-
-def testRegisterCountDelete():
-    deleteMatches()
-    deletePlayers()
-    registerPlayer("Markov Chaney")
-    registerPlayer("Joe Malik")
-    registerPlayer("Mao Tsu-hsi")
-    registerPlayer("Atlanta Hope")
-    c = countPlayers()
-    if c != 4:
-        raise ValueError(
-            "After registering four players, countPlayers should be 4.")
-    deletePlayers()
-    c = countPlayers()
-    if c != 0:
-        raise ValueError("After deleting, countPlayers should return zero.")
-    print "5. Players can be registered and deleted."
-
-
-def testStandingsBeforeMatches():
-    deleteMatches()
-    deletePlayers()
-    registerPlayer("Melpomene Murray")
-    registerPlayer("Randy Schwartz")
-    standings = playerStandings()
-    if len(standings) < 2:
-        raise ValueError("Players should appear in playerStandings even "
-                         "before they have played any matches.")
-    elif len(standings) > 2:
-        raise ValueError("Only registered players should appear in standings.")
-    if len(standings[0]) != 4:
-        raise ValueError("Each playerStandings row should have four columns.")
-    [(id1, name1, wins1, matches1), (id2, name2, wins2, matches2)] = standings
-    if matches1 != 0 or matches2 != 0 or wins1 != 0 or wins2 != 0:
-        raise ValueError(
-            "Newly registered players should have no matches or wins.")
-    if set([name1, name2]) != set(["Melpomene Murray", "Randy Schwartz"]):
-        raise ValueError("Registered players' names should appear in "
-                         "standings, even if they have no matches played.")
-    print ("6. Newly registered players appear in the standings with no "
-           "matches.")
-
-
-def testReportMatches():
-    deleteMatches()
-    deletePlayers()
-    registerPlayer("Bruno Walton")
-    registerPlayer("Boots O'Neal")
-    registerPlayer("Cathy Burton")
-    registerPlayer("Diane Grant")
-    standings = playerStandings()
-    [id1, id2, id3, id4] = [row[0] for row in standings]
-    reportMatch_2(id1, id2)
-    reportMatch_2(id3, id4)
-    standings = playerStandings()
-    for (i, n, w, m) in standings:
-        if m != 1:
-            raise ValueError("Each player should have one match recorded.")
-        if i in (id1, id3) and w != 1:
-            raise ValueError("Each match winner should have one win recorded.")
-        elif i in (id2, id4) and w != 0:
-            raise ValueError("Each match loser should have zero wins "
-                             "recorded.")
-    print "7. After a match, players have updated standings."
-
-
-def testPairings():
-    deleteMatches()
-    deletePlayers()
-    registerPlayer("Twilight Sparkle")
-    registerPlayer("Fluttershy")
-    registerPlayer("Applejack")
-    registerPlayer("Pinkie Pie")
-    standings = playerStandings()
-    [id1, id2, id3, id4] = [row[0] for row in standings]
-    reportMatch_2(id1, id2)
-    reportMatch_2(id3, id4)
-    pairings = swissPairings()
-    if len(pairings) != 2:
-        raise ValueError(
-            "For four players, swissPairings should return two pairs.")
-    [(pid1, pname1, pid2, pname2), (pid3, pname3, pid4, pname4)] = pairings
-    correct_pairs = set([frozenset([id1, id3]), frozenset([id2, id4])])
-    actual_pairs = set([frozenset([pid1, pid2]), frozenset([pid3, pid4])])
-    if correct_pairs != actual_pairs:
-        raise ValueError(
-            "After one match, players with one win should be paired.")
-    print "8. After one match, players with one win are paired."
-
-
-def testDeleteTournaments_extra():
-    deleteMatches()
-    deletePlayers()
-    deleteTournaments_extra()
-    print "2E. Tournament records can be deleted."
-
-
-def testRegisterCountDelete_extra():
-    deleteMatches()
-    deletePlayers()
-    registerPlayer("Markov Chaney")
-    registerPlayer("Joe Malik")
-    registerPlayer("Mao Tsu-hsi")
-    registerPlayer("Atlanta Hope")
-    registerPlayer("Boba Fett")
-    registerPlayer("Mr. T")
-    registerPlayer("Scooby Doo")
-    c = countPlayers()
-    if c != 7:
-        raise ValueError(
-            "After registering seven players, countPlayers should be 7.")
-    deletePlayers()
-    c = countPlayers()
-    if c != 0:
-        raise ValueError("After deleting, countPlayers should return zero.")
-    print "5E. Odd amount of players can be registered and deleted."
-
-
-def testStandingsBeforeMatches_extra():
-    deleteMatches()
-    deletePlayers()
-    registerPlayer("Melpomene Murray")
-    registerPlayer("Randy Schwartz")
-    registerPlayer("Boba Fett")
-    registerPlayer("Mr. T")
-    registerPlayer("Scooby Doo")
-    registerPlayer("Orko")
-    registerPlayer("Al Bundy")
-    standings = playerStandings()
-    if len(standings) < 7:
-        raise ValueError("Players should appear in playerStandings even "
-                         "before they have played any matches.")
-    elif len(standings) > 7:
-        raise ValueError("Only registered players should appear in standings.")
-    if len(standings[0]) != 4:
-        raise ValueError("Each playerStandings row should have four columns.")
-    [(id1, name1, wins1, matches1), (id2, name2, wins2, matches2),
-     (id3, name3, wins3, matches3), (id4, name4, wins4, matches4),
-     (id5, name5, wins5, matches5), (id6, name6, wins6, matches6),
-     (id7, name7, wins7, matches7)] = standings
-    if (matches1 != 0 or matches2 != 0 or matches3 != 0 or matches4 != 0 or
-        matches5 != 0 or matches6 != 0 or matches7 != 0 or wins1 != 0 or
-        wins2 != 0 or wins3 != 0 or wins4 != 0 or wins5 != 0 or wins6 != 0 or
-            wins1 != 0):
-                raise ValueError(
-                    "Newly registered players should have no matches or wins.")
-    if set([name1, name2, name3, name4, name5, name6, name7]) != set([
-            "Melpomene Murray", "Randy Schwartz", "Boba Fett", "Mr. T",
-            "Scooby Doo", "Orko", "Al Bundy"]):
-        raise ValueError("Registered players' names should appear in "
-                         "standings, even if they have no matches played.")
-    print ("6E. Uneven amount of newly registered players appear in the "
-           "standings with no matches.")
-
-
-def testReportMatches_extra():
-    deleteMatches()
-    deletePlayers()
-    registerPlayer("Bruno Walton")
-    registerPlayer("Boots O'Neal")
-    registerPlayer("Cathy Burton")
-    registerPlayer("Diane Grant")
-    registerPlayer("Scooby Doo")
-    registerPlayer("Orko")
-    registerPlayer("Al Bundy")
-    standings = playerStandings()
-    [id1, id2, id3, id4, id5, id6, id7] = [row[0] for row in standings]
-    reportMatch_2(id1, id2)
-    reportMatch_2(id3, id4)
-    reportMatch_2(id5, id6)
-    reportMatch_2(id7, id7)  # the odd player gets a "bye"
-    standings = playerStandings()
-    for (i, n, w, m) in standings:
-        if len(standings) % 2 == 0:  # number of players dividable by 2
-            if m != 1:
-                raise ValueError("Each player should have one match recorded.")
-            if i in (id1, id3) and w != 1:
-                raise ValueError("Each winner should have one win recorded.")
-            elif i in (id2, id4) and w != 0:
-                raise ValueError("Each loser should have zero wins "
-                                 "recorded.")
-        else:  # odd number of players
-            if i in (id1, id3, id5, id7) and w != 1:
-                raise ValueError("Each winner should have one win recorded.")
-            elif i in (id2, id4, id6) and w != 0:
-                raise ValueError("Each loser should have zero wins "
-                                 "recorded.")
-    print ("7E. After a match, players have updated standings. Players who "
-           "didn't play get a bye-win.")
-
-
 def testPairings_extra():
     """ Some extra featues which are testing in this function:
 
@@ -241,6 +17,10 @@ def testPairings_extra():
        are possible and players need to be registered for each tournament
        separately.
     """
+    print " "
+    print "---------------------------------"
+    print "Start of 8E - testPairings_extra."
+    print " "
 
     # deleteMatches()
     # deletePlayers()
@@ -249,6 +29,7 @@ def testPairings_extra():
 
     # register a new tournament and save returned tid in a temporary variable
     tid = registerTournament_extra("Master of the Mysterious Seven")[0]
+    print "New Tournamenent registered with Tournament id (tid) " + str(tid)
 
     # register 9 players (not for the tournament yet)
     registerPlayer("Twilight Sparkle")
@@ -260,19 +41,26 @@ def testPairings_extra():
     registerPlayer("Mila Superstar")
     registerPlayer("Orko")
     registerPlayer("Al Bundy")
+    print "9 new players have been registered in the database."
 
     # add the last 7 players to the last registered tournament
     registerPlayersForTournament_extra(7)
     standings = playerStandings_last_tournament_extra()
     [id1, id2, id3, id4, id5, id6, id7] = [row[0] for row in standings]
+    print ("7 players have been sucessfully registered for the "
+           "tournament " + str(tid) + ".")
 
     # report the first round matches including ties, bye-wins, and missing
     # inputfor tie.
     reportMatch_extra(id1, id2, tid, 'false')
+    print "Match 1 reported a winner."
     reportMatch_extra(id3, id4, tid, 'true')
+    print "Match 2 reported a tie."
     reportMatch_extra(id5, id6, tid, '')
+    print "Match 3 reported a winnen, even though the tie input wasn't clear."
     # the odd player gets a "bye" when played against himself
     reportMatch_extra(id7, id7, tid, '')
+    print "The remaining odd player gets his free bye-win."
 
     # if odd number of players, swissPairings creates a match against itself
     # for the last player - reportMatch_extra recognizes this and reports a
@@ -305,9 +93,14 @@ def testPairings_extra():
     #   84 | 559 | Orko           |    0 |    0 |       1 | f
     #   84 | 555 | Mr. T          |    0 |    0 |       1 | f
     # (7 rows)
+    print "Pairings for round 2:"
+    print pairings
 
-    print ("8E. After one match, players with similar amount of wins (+-1) "
-           "are paired.")
+    print " "
+    print ("End of 8E - testPairings_extra sucessfully finished. After one "
+           "match, players with similar amount of wins (+-1) are paired.")
+    print "---------------------------------"
+    print " "
 
 
 def testPlayTournament_extra():
@@ -318,8 +111,14 @@ def testPlayTournament_extra():
     Note: Each pairing and the player standings are documented for each round
     in the comments.
     """
+    print " "
+    print "---------------------------------------"
+    print "Start of 9E - testPlayTournament_extra."
+    print " "
 
     tid = registerTournament_extra("Master of the Mysterious Seven")[0]
+    print "New Tournamenent registered with Tournament id (tid) " + str(tid)
+
     registerPlayer("Boba Fett")
     registerPlayer("Mr. T")
     registerPlayer("Scooby Doo")
@@ -328,10 +127,16 @@ def testPlayTournament_extra():
     registerPlayer("Orko")
     registerPlayer("Al Bundy")
     rounds = registerPlayersForTournament_extra(7)
+    print ("7 new players have been registered in the database and for the "
+           "tournament" + str(tid) + ".")
+    print str(rounds) + " are going to be played in the tournament."
 
     # There are 3 rounds with 7 players
     for i in range(0, rounds):
         pairings = swissPairings_extra()
+        print " "
+        print "pairings for round " + str(i + 1) + ":"
+        print pairings
         # 1st pairings:
         # [(438, 'Boba Fett', 439, 'Mr. T'), (440, 'Scooby Doo', 441, 'Captain
         #   Planet'), (442, 'Mila Superstar', 443, 'Orko'), (444, 'Al Bundy',
@@ -349,8 +154,18 @@ def testPlayTournament_extra():
 
         # generate match outcomes for all pairings. To make it quick, ties are
         # set to false.
+        print "The results are:"
+        match_number = 1
         for pairing in pairings:
             reportMatch_extra(pairing[0], pairing[2], tid, 'false')
+            if pairing[0] != pairing[2]:
+                print ("Round " + str(i + 1) + " Match " + str(match_number) +
+                       " - Winner: " + str(pairing[1]))
+            else:
+                print (str(pairing[1]) + " doesn't play and gets a free "
+                       "bye-win.")
+            match_number += 1
+
         # --> select * from view_complete_statistics_last_tournament_extra;
         # 1st round:
         #  tid | pid |      name      | wins | ties | matches | bye
@@ -385,7 +200,12 @@ def testPlayTournament_extra():
         #   67 | 441 | Captain Planet |    1 |    0 |       3 | f
         #   67 | 442 | Mila Superstar |    1 |    0 |       3 | f
 
-    print ("9E. Tournament with uneven amount of players played through.")
+    print " "
+    print ("End of 9E - testPlayTournament_extra sucessfully finished. "
+           "Tournament with uneven amount of players played through.")
+    print "---------------------------------------"
+    print " "
+
 
 if __name__ == '__main__':
     """NOTE: After implementing foreign key not-null constraints, the delete
@@ -394,22 +214,10 @@ if __name__ == '__main__':
     only the last functions are used to demonstrate the working database model.
     """
 
-    # Test cases to meet project requirements
-    # testDeleteMatches()
-    # testDelete()  # doesn't work with new database model anymore (see above)
-    # testCount()
-    # testRegister()
-    # testRegisterCountDelete()
-    # testStandingsBeforeMatches()
-    # testReportMatches()
-    # testPairings()
-    # print "Success!  All tests pass to meet specifications!"
-
     # Test cases for meet for extra credit
-    # testDeleteTournaments_extra()
-    # testRegisterCountDelete_extra()
-    # testStandingsBeforeMatches_extra()
-    # testReportMatches_extra()
     testPairings_extra()
     testPlayTournament_extra()
-    print "Success!  All extra tests pass to exceed specifications!"
+    print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    print "!! Success!  All extra tests pass to exceed specifications !!"
+    print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    print " "
