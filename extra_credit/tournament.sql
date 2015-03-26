@@ -7,25 +7,66 @@
 -- these lines here.
 
 -- Create the database for the tournament
-CREATE DATABASE tournament_extra;
+-- CREATE DATABASE tournament_extra;
 
--- Create tables for the database
+
+-- Create tables to the database
 CREATE TABLE players (id serial, name text);
-CREATE TABLE tournament (tid serial, name text);
-CREATE TABLE tournament_players (tid integer, pid integer, bye boolean);
 CREATE TABLE matches (id1 integer, id2 integer, tie boolean, tid integer);
 
--- Populate players tables
+-- Adding primary keys to existing tables
+ALTER TABLE players
+  ADD CONSTRAINT players_pk 
+    PRIMARY KEY (id);
+
+ALTER TABLE matches
+  ADD CONSTRAINT matches_pk 
+    PRIMARY KEY (tid, id1, id2);
+
+-- Add new tables to the database wit primary and foreign keys
+CREATE TABLE tournament (tid serial PRIMARY KEY, name text);
+CREATE TABLE tournament_players (
+	tid integer, 
+	pid integer, 
+	bye boolean,
+	CONSTRAINT tournament_players_pk 
+		PRIMARY KEY (tid, pid),
+	CONSTRAINT fk_player
+		FOREIGN KEY (pid)
+    	REFERENCES players(id)
+    	ON DELETE SET NULL,
+    CONSTRAINT fk_tournament
+		FOREIGN KEY (tid)
+    	REFERENCES tournament(tid)
+    	ON DELETE SET NULL
+);
+
+-- Adding foreign keys to existing table
+ALTER TABLE matches
+ADD CONSTRAINT fk_player1
+  FOREIGN KEY (id1)
+  REFERENCES players(id)
+  ON DELETE SET NULL,
+ADD CONSTRAINT fk_player2
+  FOREIGN KEY (id2)
+  REFERENCES players(id)
+  ON DELETE SET NULL,
+ADD CONSTRAINT fk_tournament
+  FOREIGN KEY (tid)
+  REFERENCES tournament(tid)
+  ON DELETE SET NULL;
+
+/*-- Populate players tables
 INSERT INTO players (name) VALUES ('Dagobert :)');
-INSERT INTO players (name) VALUES ('Donald :(');
+INSERT INTO players (name) VALUES ('Donald :(');*/
 
--- Populate tournament table
-INSERT INTO tournament (name) VALUES ('World Cup'):
+-- Populate tournament table with dummy value needed for reportMatch_2
+-- INSERT INTO tournament (name) VALUES ('World Cup');
 
--- Populate matches tables
-INSERT INTO matches VALUES ('22','23', true);
-INSERT INTO matches VALUES ('24','25', false);
-INSERT INTO matches VALUES ('26','27');
+/*-- Populate matches tables
+INSERT INTO matches VALUES ('22','23', true, '1');
+INSERT INTO matches VALUES ('24','25', false, '1');
+INSERT INTO matches VALUES ('26','27', , '1');*/
 
 
 -- 1. Views to meet requirements
