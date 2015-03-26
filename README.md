@@ -25,6 +25,7 @@ Additionally, primary and foreign key constraints are implemented in the databas
 NOTE: The database model for tournament_extra (extra credit) can be accessed through the 'Issues'-tab on the right. 
 
 # Requirements
+The project has been run from a vagrant virtual machine, but basically the main requirements are the following:
 - Python 2.7
 - PostgreSQL
 
