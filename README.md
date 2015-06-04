@@ -1,5 +1,5 @@
 # Database Schema and Methods: Swiss System Tournament Framework
-A database and method framework to realize a Swiss system tournament. Thereby, some database
+Database and method framework to realize a Swiss system tournament. Thereby, some database
 programming skills in PostgreSQL and Python are exercised.
 
 **Note:** This is a solution to project 2 of the [Udacity Full Stack Web Developer Nanodegree][1] based on the course [Intro to Relational Databases (ud197)][2]. The solution is graded with "Exceeds Specifications".
