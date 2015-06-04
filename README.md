@@ -8,7 +8,7 @@ programming skills in PostgreSQL and Python are exercised.
 There are three files and an `/extra_credit` folder with additional three files with the same names. In both cases, the
 three files have the following functions:
 - `tournament.sql`: Here the database with its tables, primary and foreign keys as well as its views is defined. This file
-needs to be imported once to the database (command `\i tournament.sql`) to set up the whole underlying database model.
+needs to be imported once to the database (`$ \i tournament.sql`) to set up the whole underlying database model.
 - `tournament.py`: This file contains all methods with its queries which can be applied on the database.
 - `tournament_test.py`: This file constains methods to test the methods in tournament.py and its results.
 
@@ -35,11 +35,11 @@ The project has been run from a [Vagrant virtual machine][3], but basically the 
 ## Running Instructions
 1. Change either to the `/` or the `/extra_credit` directory
 2. In the command prompt start the PostgreSQL database by typing `psql`
-3. From there create a new database, e.g. by typing `CREATE DATABASE tournament;`
-4. Connect to the new database by typing `\c tournament`
-5. Import the database model and its views by typing `\i tournament.sql`
+3. From there create a new database, e.g. by typing `$ CREATE DATABASE tournament;`
+4. Connect to the new database by typing `$ \c tournament`
+5. Import the database model and its views by typing `$ \i tournament.sql`
 6. Exit from the database with the keyboard shortcut *ctrl+d*
-7. Finally, start the test file with `python tournament_test.py`
+7. Finally, start the test file with `$ python tournament_test.py`
 
 [1]: https://www.udacity.com/course/full-stack-web-developer-nanodegree--nd004 "Udacity Nanodegree: Full Stack Web Developer"
 [2]: https://www.udacity.com/course/intro-to-relational-databases--ud197-nd "Udacity Course: Intro to Relational Databases"
