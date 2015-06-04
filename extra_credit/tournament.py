@@ -107,6 +107,8 @@ def registerPlayersForTournament_extra(number_of_players):
     return rounds
 
 
+# Not used.
+#
 # def playerStandings_extra():
 #     """Returns a list of the players and their win and tie records, sorted by wins.
 
