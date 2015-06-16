@@ -2,6 +2,8 @@
 Database and method framework to realize a Swiss system tournament. Thereby, some database
 programming skills in PostgreSQL and Python are exercised.
 
+![](http://image-store.slidesharecdn.com/b593fc83-1ce3-49a6-b7e3-ad52b8d8f2a9-large.jpeg)
+
 **Note:** This is a solution to project 2 of the [Udacity Full Stack Web Developer Nanodegree][1] based on the course [Intro to Relational Databases (ud197)][2]. The solution is graded with "Exceeds Specifications".
 
 ## Detailed Description
